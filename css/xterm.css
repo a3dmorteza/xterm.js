@@ -262,6 +262,16 @@
     cursor: default;
 }
 
+/* Scrollbar position when dir=rtl */
+.xterm[dir="rtl"] .xterm-scrollable-element > .scrollbar.vertical {
+    left: 0 !important;
+    right: unset !important;
+}
+.xterm[dir="rtl"] .xterm-scrollable-element > .scrollbar.horizontal {
+    right: 0 !important;
+    left: unset !important;
+}
+
 /* Arrows */
 .xterm .xterm-scrollable-element > .scrollbar > .scra {
 	cursor: pointer;

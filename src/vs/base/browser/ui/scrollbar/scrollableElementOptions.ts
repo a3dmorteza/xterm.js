@@ -124,7 +124,6 @@ export interface ScrollableElementCreationOptions {
 	 * Defaults to false.
 	 */
 	scrollByPage?: boolean;
-	direction?: 'ltr' | 'rtl';
 }
 
 export interface ScrollableElementChangeOptions {
@@ -137,7 +136,6 @@ export interface ScrollableElementChangeOptions {
 	vertical?: ScrollbarVisibility;
 	verticalScrollbarSize?: number;
 	scrollByPage?: boolean;
-	direction?: 'ltr' | 'rtl';
 }
 
 export interface ScrollableElementResolvedOptions {
@@ -164,5 +162,4 @@ export interface ScrollableElementResolvedOptions {
 	verticalSliderSize: number;
 	verticalHasArrows: boolean;
 	scrollByPage: boolean;
-	direction?: 'ltr' | 'rtl';
 }

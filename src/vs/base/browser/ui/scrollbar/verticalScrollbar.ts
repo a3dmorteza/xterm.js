@@ -72,16 +72,9 @@ export class VerticalScrollbar extends AbstractScrollbar {
 	}
 
 	protected _renderDomNode(largeSize: number, smallSize: number): void {
-		const direction = this._direction;
 		this.domNode.setWidth(smallSize);
 		this.domNode.setHeight(largeSize);
-		if (direction === 'rtl') {
-			this.domNode.setLeft(0);
-			this.domNode.setRight('');
-		} else {
-			this.domNode.setRight(0);
-			this.domNode.setLeft('');
-		}
+		this.domNode.setRight(0);
 		this.domNode.setTop(0);
 	}
 
@@ -118,7 +111,6 @@ export class VerticalScrollbar extends AbstractScrollbar {
 		this._scrollbarState.setOppositeScrollbarSize(0);
 		this._visibilityController.setVisibility(options.vertical);
 		this._scrollByPage = options.scrollByPage;
-		this.setDirection(options.direction);
 	}
 
 }

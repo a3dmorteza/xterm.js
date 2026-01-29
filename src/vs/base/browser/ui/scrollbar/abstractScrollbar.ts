@@ -39,11 +39,9 @@ export interface AbstractScrollbarOptions {
 	extraScrollbarClassName: string;
 	scrollable: Scrollable;
 	scrollByPage: boolean;
-	direction?: 'ltr' | 'rtl';
 }
 
 export abstract class AbstractScrollbar extends Widget {
-	protected _direction?: 'ltr' | 'rtl';
 
 	protected _host: ScrollbarHost;
 	protected _scrollable: Scrollable;
@@ -60,7 +58,6 @@ export abstract class AbstractScrollbar extends Widget {
 
 	constructor(opts: AbstractScrollbarOptions) {
 		super();
-		this._direction = opts.direction;
 		this._lazyRender = opts.lazyRender;
 		this._host = opts.host;
 		this._scrollable = opts.scrollable;
@@ -99,13 +96,7 @@ export abstract class AbstractScrollbar extends Widget {
 		this.slider.setClassName('slider');
 		this.slider.setPosition('absolute');
 		this.slider.setTop(top);
-		if (this._direction === 'rtl') {
-			this.slider.setRight(left);
-			this.slider.setLeft('');
-		} else {
-			this.slider.setLeft(left);
-			this.slider.setRight('');
-		}
+		this.slider.setLeft(left);
 		if (typeof width === 'number') {
 			this.slider.setWidth(width);
 		}
@@ -296,16 +287,6 @@ export abstract class AbstractScrollbar extends Widget {
 
 	public isNeeded(): boolean {
 		return this._scrollbarState.isNeeded();
-	}
-
-	public setDirection(direction?: 'ltr' | 'rtl'): void {
-		if (this._direction !== direction) {
-			this._direction = direction;
-			this._shouldRender = true;
-			if (!this._lazyRender) {
-				this.render();
-			}
-		}
 	}
 
 	// ----------------- Overwrite these

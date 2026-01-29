@@ -349,9 +349,6 @@ export abstract class AbstractScrollableElement extends Widget {
 		if (typeof newOptions.scrollByPage !== 'undefined') {
 			this._options.scrollByPage = newOptions.scrollByPage;
 		}
-		if (typeof newOptions.direction !== 'undefined') {
-			this._options.direction = newOptions.direction;
-		}
 		this._horizontalScrollbar.updateOptions(this._options);
 		this._verticalScrollbar.updateOptions(this._options);
 
@@ -708,8 +705,7 @@ function resolveOptions(opts: ScrollableElementCreationOptions): ScrollableEleme
 		verticalHasArrows: (typeof opts.verticalHasArrows !== 'undefined' ? opts.verticalHasArrows : false),
 		verticalSliderSize: (typeof opts.verticalSliderSize !== 'undefined' ? opts.verticalSliderSize : 0),
 
-		scrollByPage: (typeof opts.scrollByPage !== 'undefined' ? opts.scrollByPage : false),
-		direction: (typeof opts.direction !== 'undefined' ? opts.direction : 'ltr')
+		scrollByPage: (typeof opts.scrollByPage !== 'undefined' ? opts.scrollByPage : false)
 	};
 
 	result.horizontalSliderSize = (typeof opts.horizontalSliderSize !== 'undefined' ? opts.horizontalSliderSize : result.horizontalScrollbarSize);
