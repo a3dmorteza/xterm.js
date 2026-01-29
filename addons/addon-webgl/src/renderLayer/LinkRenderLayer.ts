@@ -6,7 +6,7 @@
 import { is256Color } from '../CharAtlasUtils';
 import { INVERTED_DEFAULT_COLOR } from 'browser/renderer/shared/Constants';
 import { IRenderDimensions } from 'browser/renderer/shared/Types';
-import { ICoreBrowserService, IDirectionService, IThemeService } from 'browser/services/Services';
+import { ICoreBrowserService, IThemeService } from 'browser/services/Services';
 import { ILinkifier2, ILinkifierEvent } from 'browser/Types';
 import { IOptionsService } from 'common/services/Services';
 import { Terminal } from '@xterm/xterm';
@@ -22,20 +22,9 @@ export class LinkRenderLayer extends BaseRenderLayer {
     linkifier2: ILinkifier2,
     coreBrowserService: ICoreBrowserService,
     optionsService: IOptionsService,
-    themeService: IThemeService,
-    @IDirectionService protected readonly _directionService: IDirectionService
+    themeService: IThemeService
   ) {
-    super(
-      terminal,
-      container,
-      'link',
-      zIndex,
-      true,
-      coreBrowserService,
-      optionsService,
-      themeService,
-      _directionService
-    );
+    super(terminal, container, 'link', zIndex, true, coreBrowserService, optionsService, themeService);
 
     this._register(linkifier2.onShowLinkUnderline(e => this._handleShowLinkUnderline(e)));
     this._register(linkifier2.onHideLinkUnderline(e => this._handleHideLinkUnderline(e)));
@@ -53,15 +42,14 @@ export class LinkRenderLayer extends BaseRenderLayer {
 
   private _clearCurrentLink(): void {
     if (this._state) {
-      const actualX1 = this._getActualX(this._state.x1, this._state.x2 - this._state.x1);
-      const actualX2 = this._getActualX(this._state.x2, 0);
-
-      this._clearCells(actualX1, this._state.y1, this._state.x2 - this._state.x1, 1);
+      const firstLineStart = (this._optionsService.rawOptions.direction === 'ltr') ? this._state.x1 : 0;
+      const lastLineStart = (this._optionsService.rawOptions.direction === 'ltr') ? 0 : this._state.cols - this._state.x2;
+      this._clearCells(firstLineStart, this._state.y1, this._state.cols - this._state.x1, 1);
       const middleRowCount = this._state.y2 - this._state.y1 - 1;
       if (middleRowCount > 0) {
         this._clearCells(0, this._state.y1 + 1, this._state.cols, middleRowCount);
       }
-      this._clearCells(actualX2, this._state.y2, this._state.x2, 1);
+      this._clearCells(lastLineStart, this._state.y2, this._state.x2, 1);
       this._state = undefined;
     }
   }
@@ -76,45 +64,23 @@ export class LinkRenderLayer extends BaseRenderLayer {
       this._ctx.fillStyle = this._themeService.colors.foreground.css;
     }
 
-    // محاسبه موقعیت واقعی با توجه به جهت
-    let actualX1 = e.x1;
-    let actualX2 = e.x2;
-
-    if (this._isRtl) {
-      // در حالت RTL، موقعیت از سمت راست محاسبه می‌شود
-      actualX1 = e.cols - e.x1 - (e.x2 - e.x1);
-      actualX2 = e.cols - e.x2;
-    }
-
     if (e.y1 === e.y2) {
       // Single line link
-      this._fillBottomLineAtCells(actualX1, e.y1, actualX2 - actualX1);
+      this._fillBottomLineAtCells(e.x1, e.y1, e.x2 - e.x1);
     } else {
       // Multi-line link
-      this._fillBottomLineAtCells(actualX1, e.y1, e.cols - actualX1);
+      const firstLineStart = (this._optionsService.rawOptions.direction === 'ltr') ? e.x1 : 0;
+      const lastLineStart = (this._optionsService.rawOptions.direction === 'ltr') ? 0 : e.cols - e.x2;
+      this._fillBottomLineAtCells(firstLineStart, e.y1, e.cols - e.x1);
       for (let y = e.y1 + 1; y < e.y2; y++) {
         this._fillBottomLineAtCells(0, y, e.cols);
       }
-      this._fillBottomLineAtCells(0, e.y2, actualX2);
+      this._fillBottomLineAtCells(lastLineStart, e.y2, e.x2);
     }
-
-    this._state = {
-      ...e,
-      x1: actualX1,
-      x2: actualX2
-    };
+    this._state = e;
   }
 
   private _handleHideLinkUnderline(e: ILinkifierEvent): void {
     this._clearCurrentLink();
-  }
-
-  /**
-   * Handle direction change for RTL support
-   */
-  public handleDirectionChange(direction: 'ltr' | 'rtl'): void {
-    super.handleDirectionChange(direction);
-    // پاک‌سازی لینک‌های فعلی و بازسازی با جهت جدید
-    this._state = undefined;
   }
 }

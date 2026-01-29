@@ -420,7 +420,7 @@ export class RectangleRenderer extends Disposable {
   }
 
   private _addRectangle(array: Float32Array, offset: number, x1: number, y1: number, width: number, height: number, r: number, g: number, b: number, a: number): void {
-    array[offset] = x1 / this._dimensions.device.canvas.width;
+    array[offset    ] = x1 / this._dimensions.device.canvas.width;
     array[offset + 1] = y1 / this._dimensions.device.canvas.height;
     array[offset + 2] = width / this._dimensions.device.canvas.width;
     array[offset + 3] = height / this._dimensions.device.canvas.height;
@@ -431,7 +431,7 @@ export class RectangleRenderer extends Disposable {
   }
 
   private _addRectangleFloat(array: Float32Array, offset: number, x1: number, y1: number, width: number, height: number, color: Float32Array): void {
-    array[offset] = x1 / this._dimensions.device.canvas.width;
+    array[offset    ] = x1 / this._dimensions.device.canvas.width;
     array[offset + 1] = y1 / this._dimensions.device.canvas.height;
     array[offset + 2] = width / this._dimensions.device.canvas.width;
     array[offset + 3] = height / this._dimensions.device.canvas.height;
@@ -445,8 +445,8 @@ export class RectangleRenderer extends Disposable {
     return new Float32Array([
       ((color.rgba >> 24) & 0xFF) / 255,
       ((color.rgba >> 16) & 0xFF) / 255,
-      ((color.rgba >> 8) & 0xFF) / 255,
-      ((color.rgba) & 0xFF) / 255
+      ((color.rgba >> 8 ) & 0xFF) / 255,
+      ((color.rgba      ) & 0xFF) / 255
     ]);
   }
 }

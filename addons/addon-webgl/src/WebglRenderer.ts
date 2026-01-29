@@ -101,7 +101,7 @@ export class WebglRenderer extends Disposable implements IRenderer {
     this._isRtl = this._directionService.isRtl; // تنظیم جهت اولیه
 
     this._renderLayers = [
-      new LinkRenderLayer(this._core.screenElement!, 2, this._terminal, this._core.linkifier!, this._coreBrowserService, _optionsService, this._themeService, _directionService)
+      new LinkRenderLayer(this._core.screenElement!, 2, this._terminal, this._core.linkifier!, this._coreBrowserService, _optionsService, this._themeService)
     ];
     this.dimensions = createRenderDimensions();
     this._devicePixelRatio = this._coreBrowserService.dpr;
@@ -175,13 +175,6 @@ export class WebglRenderer extends Disposable implements IRenderer {
       }
       if (this._glyphRenderer.value) {
         this._glyphRenderer.value.setRtl(this._isRtl);
-      }
-
-      // اطلاع به render layers
-      for (const layer of this._renderLayers) {
-        if (layer.handleDirectionChange) {
-          layer.handleDirectionChange(direction);
-        }
       }
 
       // پاک‌سازی و بازسازی مدل
