@@ -243,8 +243,6 @@ export class OptionsWindow extends BaseWindow implements IControlWindow {
           this._terminal.options[o] = value;
           this._container.ownerDocument.getElementById('sidebar').dir = value;
           this._container.ownerDocument.getElementById('banner').dir = value;
-          this._container.ownerDocument.getElementById('webgl-custom-glyphs').parentElement.style.marginLeft = (value === 'rtl') ? '' : '20px';
-          this._container.ownerDocument.getElementById('webgl-custom-glyphs').parentElement.style.marginRight = (value === 'rtl') ? '20px' : '';
         }
         this._terminal.options[o] = value;
         if (o === 'theme') {

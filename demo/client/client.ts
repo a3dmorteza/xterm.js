@@ -206,8 +206,6 @@ if (document.location.pathname === '/test') {
   window.WebglAddon = WebglAddon;
 } else {
   const typedTerm = createTerminal();
-
-  document.getElementById('sidebar').dir = typedTerm.options.direction;
   document.getElementById('banner').dir = typedTerm.options.direction;
 
   controlBar = new ControlBar(document.getElementById('sidebar'), document.querySelector('.banner-tabs'), []);
@@ -565,13 +563,7 @@ function initAddons(term: Terminal): void {
       const customGlyphsLabel = document.createElement('label');
       customGlyphsLabel.classList.add('addon');
       customGlyphsLabel.style.display = 'block';
-      if (term.options.direction === 'rtl') {
-        customGlyphsLabel.style.marginRight = '20px';
-        customGlyphsLabel.style.marginLeft = '';
-      } else {
-        customGlyphsLabel.style.marginRight = '';
-        customGlyphsLabel.style.marginLeft = '20px';
-      }
+      customGlyphsLabel.style.marginLeft = '20px';
       customGlyphsLabel.appendChild(customGlyphsCheckbox);
       customGlyphsLabel.appendChild(document.createTextNode('customGlyphs'));
       wrapper.appendChild(customGlyphsLabel);

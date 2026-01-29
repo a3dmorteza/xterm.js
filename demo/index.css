@@ -134,7 +134,7 @@ div:first-of-type.grid {
     cursor: ew-resize;
     background: transparent;
 }
-[dir="rtl"] #sidebar-resize-handle-horizontal {
+#sidebar[dir="rtl"] #sidebar-resize-handle-horizontal {
     right: 0;
     left: unset;
 }
@@ -162,9 +162,10 @@ div:first-of-type.grid {
     cursor: nesw-resize;
     background: transparent;
 }
-[dir="rtl"] #sidebar-resize-handle-corner {
+#sidebar[dir="rtl"] #sidebar-resize-handle-corner {
     right: 0;
     left: unset;
+    cursor: nwse-resize;
 }
 #sidebar-resize-handle-corner:hover {
     background: rgba(0, 120, 212, 0.5);
@@ -175,6 +176,9 @@ div:first-of-type.grid {
     display: none;
     padding: 6px 12px;
     border-top: none;
+}
+#sidebar[dir="rtl"] .tabContent {
+    direction: ltr;
 }
 
 #texture-atlas-zoom:checked ~ #texture-atlas canvas {
@@ -193,7 +197,7 @@ div:first-of-type.grid {
 .vt-button * {
   margin-right: 1em;
 }
-[dir="rtl"] .vt-button * {
+#sidebar[dir="rtl"] .vt-button * {
   margin-left: 1em;
   margin-right: unset;
 }

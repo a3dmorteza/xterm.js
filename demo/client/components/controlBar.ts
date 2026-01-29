@@ -59,7 +59,7 @@ export class ControlBar {
     document.addEventListener('mousemove', (e: MouseEvent) => {
       if (this._resizeMode === 'none') return;
       if (this._resizeMode === 'horizontal' || this._resizeMode === 'corner') {
-        const newWidth = window.innerWidth - e.clientX - 10;
+        const newWidth = this._sidebar.dir === 'rtl' ? e.clientX - 10 :  window.innerWidth - e.clientX - 10;
         this._sidebar.style.width = `${Math.max(200, newWidth)}px`;
       }
       if (this._resizeMode === 'vertical' || this._resizeMode === 'corner') {
@@ -78,7 +78,7 @@ export class ControlBar {
 
   private _startResize(mode: 'horizontal' | 'vertical' | 'corner', e: MouseEvent): void {
     this._resizeMode = mode;
-    document.body.style.cursor = mode === 'horizontal' ? 'ew-resize' : mode === 'vertical' ? 'ns-resize' : 'nesw-resize';
+    document.body.style.cursor = mode === 'horizontal' ? 'ew-resize' : mode === 'vertical' ? 'ns-resize' : (this._sidebar.dir === 'rtl' ? 'nwse-resize' : 'nesw-resize');
     document.body.style.userSelect = 'none';
     e.preventDefault();
   }
